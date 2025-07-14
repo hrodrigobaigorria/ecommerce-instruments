@@ -6,9 +6,11 @@ interface HeaderProps {
   onSearch: (query: string) => void;
   onCartClick: () => void;
   cartItemCount: number;
+  signOutButton?: React.ReactNode;
+  userName?: string;
 }
 
-export function Header({ onSearch, onCartClick, cartItemCount }: HeaderProps) {
+export function Header({ onSearch, onCartClick, cartItemCount, signOutButton, userName }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-white backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -23,8 +25,10 @@ export function Header({ onSearch, onCartClick, cartItemCount }: HeaderProps) {
             </ul>
           </nav>
         </div>
+
         <div className="flex items-center space-x-4">
           <SearchBox onSearch={onSearch} />
+
           <button
             aria-label="Open cart"
             onClick={onCartClick}
@@ -39,6 +43,12 @@ export function Header({ onSearch, onCartClick, cartItemCount }: HeaderProps) {
               </span>
             )}
           </button>
+
+          {userName && (
+            <span className="text-sm font-medium text-gray-700">Hello, {userName}</span>
+          )}
+
+          {signOutButton}
         </div>
       </div>
     </header>
