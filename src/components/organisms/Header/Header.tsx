@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '../../atoms/Button';
 import { SearchBox } from '../../molecules/SearchBox';
+import { useAuth } from '@/components/context/AuthContext';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -9,6 +10,8 @@ interface HeaderProps {
 }
 
 export function Header({ onSearch, onCartClick, cartItemCount }: HeaderProps) {
+  const { user, logout, isAuthenticated } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 bg-white backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -39,6 +42,25 @@ export function Header({ onSearch, onCartClick, cartItemCount }: HeaderProps) {
               </span>
             )}
           </button>
+          {!isAuthenticated ? (
+            <Button asChild variant="outline" size="sm">
+              <a href="/login">Login</a>
+            </Button>
+          ) : (
+            <div className="flex items-center space-x-2">
+              {user?.avatarUrl && (
+                <img
+                  src={user.avatarUrl}
+                  alt={user.name}
+                  className="h-8 w-8 rounded-full object-cover"
+                />
+              )}
+              <span className="text-sm font-semibold text-gray-700">{user?.name}</span>
+              <Button variant="ghost" size="sm" onClick={logout}>
+                Logout
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </header>
